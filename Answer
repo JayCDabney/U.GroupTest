@@ -1,0 +1,280 @@
+using System;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading;
+using NUnit.Framework;
+using OpenQA.Selenium;
+using OpenQA.Selenium.Firefox;
+using OpenQA.Selenium.Support.UI;
+
+namespace SeleniumTests
+{
+    [TestFixture]
+    public class UGroupTest
+    {
+        private IWebDriver driver;
+        private StringBuilder verificationErrors;
+        private string baseURL;
+        private bool acceptNextAlert = true;
+        
+        [SetUp]
+        public void SetupTest()
+        {
+            driver = new FirefoxDriver();
+            baseURL = "https://www.wolframalpha.com/";
+            verificationErrors = new StringBuilder();
+        }
+        
+        [TearDown]
+        public void TeardownTest()
+        {
+            try
+            {
+                driver.Quit();
+            }
+            catch (Exception)
+            {
+                // Ignore errors if unable to close the browser
+            }
+            Assert.AreEqual("", verificationErrors.ToString());
+        }
+        
+        [Test]
+        public void TheUGroupTest()
+        {
+            driver.Navigate().GoToUrl(baseURL + "/");
+            for (int second = 0;; second++) {
+                if (second >= 60) Assert.Fail("timeout");
+                try
+                {
+                    if (IsElementPresent(By.CssSelector("nav"))) break;
+                }
+                catch (Exception)
+                {}
+                Thread.Sleep(1000);
+            }
+            Assert.IsTrue(IsElementPresent(By.CssSelector("nav")));
+            Assert.IsTrue(IsElementPresent(By.CssSelector("button.has-dropdown.ng-binding")));
+            Assert.IsTrue(IsElementPresent(By.XPath("//ul[@id='nav-links']/li[2]/button")));
+            Assert.IsTrue(IsElementPresent(By.Id("tour")));
+            Assert.IsTrue(IsElementPresent(By.LinkText("Pro")));
+            Assert.IsTrue(IsElementPresent(By.XPath("//a[contains(text(),'Web Apps')]")));
+            Assert.IsTrue(IsElementPresent(By.XPath("//a[contains(text(),'Mobile Apps')]")));
+            Assert.IsTrue(IsElementPresent(By.LinkText("Products")));
+            Assert.IsTrue(IsElementPresent(By.LinkText("Business Solutions")));
+            Assert.IsTrue(IsElementPresent(By.LinkText("API & Developer Solutions")));
+            Assert.IsTrue(IsElementPresent(By.LinkText("About")));
+            Assert.IsTrue(IsElementPresent(By.LinkText("Resources & Tools")));
+            Assert.IsTrue(IsElementPresent(By.LinkText("Blog")));
+            Assert.IsTrue(IsElementPresent(By.LinkText("Community")));
+            Assert.IsTrue(IsElementPresent(By.LinkText("Contact")));
+            Assert.IsTrue(IsElementPresent(By.LinkText("Connect")));
+            Assert.IsTrue(IsElementPresent(By.CssSelector("li.icon-social-facebook")));
+            Assert.IsTrue(IsElementPresent(By.CssSelector("li.icon-social-twitter")));
+            Assert.IsTrue(IsElementPresent(By.CssSelector("li.icon-social-tumblr")));
+            Assert.IsTrue(IsElementPresent(By.CssSelector("li.icon-social-linkedin")));
+            Assert.IsTrue(IsElementPresent(By.CssSelector("#lang-switcher > span.ng-binding")));
+            Assert.IsTrue(IsElementPresent(By.XPath("(//a[contains(text(),'Terms')])[4]")));
+            Assert.IsTrue(IsElementPresent(By.CssSelector("#footer-copy > ul > li.no-divider > a.ng-binding")));
+            Assert.IsTrue(IsElementPresent(By.CssSelector("span.icon-wolfram-corporate-logotype")));
+            Assert.IsTrue(IsElementPresent(By.LinkText("wolfram.com")));
+            Assert.IsTrue(IsElementPresent(By.LinkText("Wolfram Language")));
+            Assert.IsTrue(IsElementPresent(By.LinkText("Wolfram for Education")));
+            Assert.IsTrue(IsElementPresent(By.LinkText("Wolfram Demonstrations")));
+            Assert.IsTrue(IsElementPresent(By.LinkText("Mathematica")));
+            Assert.IsTrue(IsElementPresent(By.LinkText("MathWorld")));
+            // ERROR: Caught exception [ERROR: Unsupported command [focus | id=query | ]]
+            driver.FindElement(By.Id("query")).Clear();
+            driver.FindElement(By.Id("query")).SendKeys("what is the size of the sun");
+            driver.FindElement(By.Name("equal")).Click();
+            for (int second = 0;; second++) {
+                if (second >= 60) Assert.Fail("timeout");
+                try
+                {
+                    if (IsElementPresent(By.CssSelector("span.ng-scope"))) break;
+                }
+                catch (Exception)
+                {}
+                Thread.Sleep(1000);
+            }
+            Assert.IsTrue(IsElementPresent(By.XPath("//section[@id='Result']/section/div/div")));
+            Assert.IsTrue(IsElementPresent(By.XPath("//section[@id='Result']/section/footer/div/button[5]")));
+            driver.FindElement(By.XPath("//section[@id='Result']/section/footer/div/button[5]")).Click();
+            for (int second = 0;; second++) {
+                if (second >= 60) Assert.Fail("timeout");
+                try
+                {
+                    if ("432300 miles" == driver.FindElement(By.Id("plaintext")).Text) break;
+                }
+                catch (Exception)
+                {}
+                Thread.Sleep(1000);
+            }
+            Assert.AreEqual("432300 miles", driver.FindElement(By.Id("plaintext")).Text);
+            for (int second = 0;; second++) {
+                if (second >= 60) Assert.Fail("timeout");
+                try
+                {
+                    if ("Show metric" == driver.FindElement(By.LinkText("Show metric")).Text) break;
+                }
+                catch (Exception)
+                {}
+                Thread.Sleep(1000);
+            }
+            driver.FindElement(By.LinkText("Show metric")).Click();
+            for (int second = 0;; second++) {
+                if (second >= 60) Assert.Fail("timeout");
+                try
+                {
+                    if ("Show non-metric" == driver.FindElement(By.LinkText("Show non-metric")).Text) break;
+                }
+                catch (Exception)
+                {}
+                Thread.Sleep(1000);
+            }
+            for (int second = 0;; second++) {
+                if (second >= 60) Assert.Fail("timeout");
+                try
+                {
+                    if ("A Plaintext" == driver.FindElement(By.XPath("//section[@id='Result']/section/footer/div/button[5]")).Text) break;
+                }
+                catch (Exception)
+                {}
+                Thread.Sleep(1000);
+            }
+            driver.FindElement(By.XPath("//section[@id='Result']/section/footer/div/button[5]")).Click();
+            for (int second = 0;; second++) {
+                if (second >= 60) Assert.Fail("timeout");
+                try
+                {
+                    if ("695700 km (kilometers)" == driver.FindElement(By.Id("plaintext")).Text) break;
+                }
+                catch (Exception)
+                {}
+                Thread.Sleep(1000);
+            }
+            Assert.AreEqual("695700 km (kilometers)", driver.FindElement(By.Id("plaintext")).Text);
+            driver.FindElement(By.LinkText("✕")).Click();
+            for (int second = 0;; second++) {
+                if (second >= 60) Assert.Fail("timeout");
+                try
+                {
+                    if ("Show non-metric" == driver.FindElement(By.LinkText("Show non-metric")).Text) break;
+                }
+                catch (Exception)
+                {}
+                Thread.Sleep(1000);
+            }
+            driver.FindElement(By.LinkText("Show non-metric")).Click();
+            for (int second = 0;; second++) {
+                if (second >= 60) Assert.Fail("timeout");
+                try
+                {
+                    if ("Show metric" == driver.FindElement(By.LinkText("Show metric")).Text) break;
+                }
+                catch (Exception)
+                {}
+                Thread.Sleep(1000);
+            }
+            Assert.AreEqual("Show metric", driver.FindElement(By.LinkText("Show metric")).Text);
+            Assert.IsTrue(IsElementPresent(By.XPath("//section[@id='StellarRadiusProperties:QuantityData']/section/div/div")));
+            driver.FindElement(By.XPath("//section[@id='StellarRadiusProperties:QuantityData']/section/footer/div/button[5]")).Click();
+            for (int second = 0;; second++) {
+                if (second >= 60) Assert.Fail("timeout");
+                try
+                {
+                    if (IsElementPresent(By.Id("plaintext"))) break;
+                }
+                catch (Exception)
+                {}
+                Thread.Sleep(1000);
+            }
+            String SunLifetime = driver.FindElement(By.Id("plaintext")).Text;
+            // Warning: assertTextPresent may require manual changes
+            Assert.IsTrue(Regex.IsMatch(driver.FindElement(By.CssSelector("BODY")).Text, "^[\\s\\S]*\\$\\{SunLifetime\\}[\\s\\S]*$"));
+            driver.FindElement(By.LinkText("✕")).Click();
+            driver.FindElement(By.CssSelector("button.sign-in")).Click();
+            for (int second = 0;; second++) {
+                if (second >= 60) Assert.Fail("timeout");
+                try
+                {
+                    if (IsElementPresent(By.Id("form-main"))) break;
+                }
+                catch (Exception)
+                {}
+                Thread.Sleep(1000);
+            }
+            driver.FindElement(By.Name("j_username")).Clear();
+            driver.FindElement(By.Name("j_username")).SendKeys("test123@test123.com");
+            driver.FindElement(By.Name("j_password")).Clear();
+            driver.FindElement(By.Name("j_password")).SendKeys("test123");
+            driver.FindElement(By.Id("sign-in-btn")).Click();
+            for (int second = 0;; second++) {
+                if (second >= 60) Assert.Fail("timeout");
+                try
+                {
+                    if ("The email address or password is not correct." == driver.FindElement(By.CssSelector("p")).Text) break;
+                }
+                catch (Exception)
+                {}
+                Thread.Sleep(1000);
+            }
+            driver.FindElement(By.Name("j_username")).Clear();
+            driver.FindElement(By.Name("j_username")).SendKeys("wolframalphaTester@mailinator.com");
+            driver.FindElement(By.Name("j_password")).Clear();
+            driver.FindElement(By.Name("j_password")).SendKeys("wolframalphaTester12345");
+            driver.FindElement(By.Id("sign-in-btn")).Click();
+            for (int second = 0;; second++) {
+                if (second >= 60) Assert.Fail("timeout");
+                try
+                {
+                    if ("wolframalphaTester@mailinator.com" == driver.FindElement(By.CssSelector("button.user-icon-header")).Text) break;
+                }
+                catch (Exception)
+                {}
+                Thread.Sleep(1000);
+            }
+            Assert.AreEqual("wolframalphaTester@mailinator.com", driver.FindElement(By.CssSelector("button.user-icon-header")).Text);
+        }
+        private bool IsElementPresent(By by)
+        {
+            try
+            {
+                driver.FindElement(by);
+                return true;
+            }
+            catch (NoSuchElementException)
+            {
+                return false;
+            }
+        }
+        
+        private bool IsAlertPresent()
+        {
+            try
+            {
+                driver.SwitchTo().Alert();
+                return true;
+            }
+            catch (NoAlertPresentException)
+            {
+                return false;
+            }
+        }
+        
+        private string CloseAlertAndGetItsText() {
+            try {
+                IAlert alert = driver.SwitchTo().Alert();
+                string alertText = alert.Text;
+                if (acceptNextAlert) {
+                    alert.Accept();
+                } else {
+                    alert.Dismiss();
+                }
+                return alertText;
+            } finally {
+                acceptNextAlert = true;
+            }
+        }
+    }
+}
